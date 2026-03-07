@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SN_Editor | Video Editor Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            DEFAULT: '#E11D48', // Cinematic Rose/Red
+                            dark: '#BE123C',
+                            glow: 'rgba(225, 29, 72, 0.5)'
+                        },
+                        dark: {
+                            900: '#0a0a0c',
+                            800: '#121216',
+                            700: '#1c1c21'
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'gradient-x': 'gradient-x 4s ease infinite',
+                        'float-up': 'float-up 25s linear infinite',
+                        'float-up-fast': 'float-up 15s linear infinite',
+                        'float-up-slow': 'float-up 35s linear infinite',
+                        'slide-up-fade': 'slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        },
+                        'float-up': {
+                            '0%': { transform: 'translateY(110vh) translateX(0)', opacity: '0' },
+                            '10%': { opacity: '0.8' },
+                            '90%': { opacity: '0.8' },
+                            '100%': { transform: 'translateY(-10vh) translateX(15vw)', opacity: '0' },
+                        },
+                        slideUpFade: {
+                            '0%': { transform: 'translateY(60px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                        
+            }
+                    }
+                }
+            }
+        
+        
+    </script>
+    <style>
+        /* Custom Scrollbar for a modern look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1c1c21;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E11D48;
+        }
+        
+        .glass-nav {
+            background: rgba(10, 10, 12, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .video-card-hover:hover {
+            box-shadow: 0 0 30px rgba(225, 29, 72, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        /* Hide default video controls, we use custom ones */
+        video::-webkit-media-controls {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-200 font-sans antialiased overflow-x-hidden selection:bg-brand selection:text-white">
+
+    <!-- Background Ambient Effects -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-brand/10 mix-blend-screen filter blur-[100px] animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-900/10 mix-blend-screen filter blur-[120px] animate-blob" style="animation-delay: 2s;"></div>
+        
+        <!-- Blurred Moving Stars -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute w-2 h-2 bg-white rounded-full blur-[2px] opacity-60 left-[10%] animate-float-up" style="animation-delay: 0s;"></div>
+            <div class="absolute w-3 h-3 bg-brand rounded-full blur-[3px] opacity-40 left-[25%] animate-float-up-slow" style="animation-delay: -5s;"></div>
+            <div class="absolute w-1.5 h-1.5 bg-white rounded-full blur-[1px] opacity-80 left-[40%] animate-float-up-fast" style="animation-delay: -12s;"></div>
+            <div class="absolute w-4 h-4 bg-purple-400 rounded-full blur-[4px] opacity-30 left-[60%] animate-float-up-slow" style="animation-delay: -8s;"></div>
+            <div class="absolute w-2 h-2 bg-white rounded-full blur-[2px] opacity-50 left-[75%] animate-float-up" style="animation-delay: -15s;"></div>
+            <div class="absolute w-3 h-3 bg-brand rounded-full blur-[3px] opacity-40 left-[90%] animate-float-up-slow" style="animation-delay: -2s;"></div>
+            <div class="absolute w-2 h-2 bg-white rounded-full blur-[2px] opacity-60 left-[15%] animate-float-up-slow" style="animation-delay: -18s;"></div>
+            <div class="absolute w-1 h-1 bg-white rounded-full blur-[1px] opacity-70 left-[35%] animate-float-up" style="animation-delay: -7s;"></div>
+            <div class="absolute w-3 h-3 bg-purple-500 rounded-full blur-[3px] opacity-30 left-[55%] animate-float-up-slow" style="animation-delay: -22s;"></div>
+            <div class="absolute w-2 h-2 bg-brand rounded-full blur-[2px] opacity-50 left-[85%] animate-float-up-fast" style="animation-delay: -10s;"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="font-display font-bold text-2xl tracking-tighter text-white flex items-center gap-2">
+                    <i data-lucide="film" class="text-brand h-6 w-6"></i>
+                    PRO<span class="text-brand">EDIT</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-sm font-semibold hover:text-brand transition-colors">HOME</a>
+                    <a href="#work" class="text-sm font-semibold hover:text-brand transition-colors">WORK</a>
+                    <a href="#about" class="text-sm font-semibold hover:text-brand transition-colors">ABOUT</a>
+                    <a href="#contact" class="text-sm font-semibold hover:text-brand transition-colors">CONTACT</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-gray-300 hover:text-white focus:outline-none" id="mobile-menu-btn">
+                    <i data-lucide="menu" class="h-6 w-6"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div class="md:hidden hidden bg-dark-800 border-b border-white/5 absolute w-full" id="mobile-menu">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#home" class="block px-3 py-3 text-base font-medium hover:bg-dark-700 hover:text-brand rounded-md transition-colors mobile-link">Home</a>
+                <a href="#work" class="block px-3 py-3 text-base font-medium hover:bg-dark-700 hover:text-brand rounded-md transition-colors mobile-link">Work</a>
+                <a href="#about" class="block px-3 py-3 text-base font-medium hover:bg-dark-700 hover:text-brand rounded-md transition-colors mobile-link">About</a>
+                <a href="#contact" class="block px-3 py-3 text-base font-medium hover:bg-dark-700 hover:text-brand rounded-md transition-colors mobile-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10">
+        
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-dark-800 border border-white/10 mb-8">
+                    <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-xs font-semibold tracking-wider text-gray-300 uppercase">Available for Freelance</span>
+                </div>
+                
+                <div class="animate-slide-up-fade">
+    <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-2 text-transparent bg-clip-text bg-gradient-to-r from-brand via-white to-brand animate-gradient-x bg-[length:200%_auto]">
+        Shahanawaj Nadaf
+    </h1>
+</div>
+                
+                
+                <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-6">
+                    Visualizing <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-purple-500">Your Story.</span>
+                </h2>
+                
+                <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-light">
+                    I craft compelling narratives through dynamic video editing. From cinematic color grading to fast-paced modern cuts.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#work" class="w-full sm:w-auto px-8 py-4 bg-brand hover:bg-brand-dark text-white font-semibold rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+                        <i data-lucide="play-circle" class="w-5 h-5"></i> View Showreel
+                    </a>
+                    <a href="#contact" class="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 hover:border-white/50 text-white font-semibold rounded-lg transition-all flex items-center justify-center gap-2">
+                        Let's Talk <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work/Portfolio Section (Local Videos) -->
+        <section id="work" class="py-24 px-6 bg-dark-800/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                    <div>
+                        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-4">Selected Work</h2>
+                        <p class="text-gray-400 max-w-xl">A collection of my best edits. Featuring custom play/pause interactions.</p>
+                    </div>
+                </div>
+
+                <!-- Local File Instructions -->
+                
+
+                <!-- Video Grid Container -->
+                <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <!-- JavaScript will automatically inject videos here -->
+                </div>
+                
+            
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-24 px-6 relative">
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+                <div class="w-full lg:w-1/2">
+                    <div class="relative rounded-2xl overflow-hidden group shadow-2xl">
+                        <!-- Your Profile Image -->
+                        <!-- ⚠️ REPLACE "./your-image.jpg" WITH YOUR ACTUAL IMAGE FILE NAME -->
+                        <img src="videos/PicsArt_02-12-07.56.21.png" alt="Shahanawaj Nadaf" class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105">
+                        
+                        <!-- Red tint overlay (optional, keeps the cinematic look) -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-brand/20 to-transparent mix-blend-overlay pointer-events-none"></div>
+                    </div>
+                </div>
+                
+                <div class="w-full lg:w-1/2">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">The person behind the timeline.</h2>
+                    <p class="text-gray-400 mb-6 text-lg">
+                        With over 5 years of experience in the post-production industry, I specialize in bringing raw footage to life. I understand pacing, rhythm, and the emotional impact of a well-placed cut.
+                    </p>
+                    <p class="text-gray-400 mb-8 text-lg">
+                        Whether it's a high-energy music video, a corporate documentary, or engaging social media content, I deliver polished, professional results tailored to your brand's voice.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                        <!-- Software Skills -->
+                        <div class="flex items-center gap-2 p-3 rounded-lg bg-dark-800 border border-white/5">
+                            <i data-lucide="video" class="text-purple-400 w-5 h-5"></i>
+                            <span class="text-sm font-semibold text-gray-200">Premiere Pro</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 rounded-lg bg-dark-800 border border-white/5">
+                            <i data-lucide="layers" class="text-blue-400 w-5 h-5"></i>
+                            <span class="text-sm font-semibold text-gray-200">After Effects</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 rounded-lg bg-dark-800 border border-white/5">
+                            <i data-lucide="palette" class="text-green-400 w-5 h-5"></i>
+                            <span class="text-sm font-semibold text-gray-200">Capcut</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 px-6 bg-dark-800/50 border-t border-white/5">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-6">Ready to create?</h2>
+                <p class="text-xl text-gray-400 mb-12">Let's discuss your next project and make something amazing together.</p>
+                
+                <a href="mailto:hello@example.com" class="inline-flex items-center gap-3 px-10 py-5 bg-white text-dark-900 font-bold rounded-xl hover:bg-gray-200 transition-colors text-lg">
+                    <i data-lucide="mail" class="w-6 h-6"></i> shannadaf5785@gmail.com
+                </a>
+
+                <a href="mailto:hello@example.com" class="inline-flex items-center gap-3 px-10 py-5 bg-white text-dark-900 font-bold rounded-xl hover:bg-gray-200 transition-colors text-lg">
+                    <i data-lucide="phone" class="w-6 h-6"></i> 8007625786
+                </a>
+
+                
+
+                
+                <div class="flex justify-center gap-6 mt-16">
+                    <a href="https:www.instagram.com/g.forgraphicsigsh=MXFjdGxrZWgzZXpvcg==" class="p-4 rounded-full bg-dark-700 text-gray-400 hover:text-white hover:bg-brand transition-all">
+                        <i data-lucide="instagram" class="w-6 h-6"></i>
+                
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center border-t border-white/5 bg-dark-900">
+        <p class="text-sm text-gray-600">© <span id="year"></span> ProEdit. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+
+        
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Set Current Year in Footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle Logic
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Add blur effect to navbar on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+
+        /* =========================================================================
+           🚀 LOCAL VIDEO IMPORT LOGIC
+           ========================================================================= */
+        
+        // 1. ADD YOUR LOCAL VIDEO PATHS HERE
+        // When you download this file to your computer, replace these paths with 
+        // your local paths like: "./videos/travel_film.mp4"
+        const portfolioVideos = [
+            {
+                title: "Insta Viral Reels",
+                category: "Motion Graphics",
+                // path: "./videos/travel_film.mp4" <-- Use this when testing locally
+                path: "videos/MAIN modi.mp4" 
+            },
+            {
+                title: "Low Budget Videos",
+                category: "Color Grading & Editing",
+                // path: "./videos/tech_commercial.mp4" <-- Use this when testing locally
+                path: "videos/REEL P rev.mp4"
+            },
+            {
+                title: "Real Estate/ Viral Caption Editing",
+                category: "Caption + Speed Ramp",
+                // path: "./videos/tech_commercial.mp4" <-- Use this when testing locally
+                path: "videos/sample nithin.mp4"
+            },
+            {
+                title: "Vlog Reel Fact Paced ",
+                category: "Mr Beast style ",
+                // path: "./music_video.mp4" <-- Use this when testing locally
+                path: "videos/Vlog edits (portfolio 1).mp4"
+            },
+            {
+                title: "Map Documentry ",
+                category: "Map Animation ",
+                // path: "./music_video.mp4" <-- Use this when testing locally
+                path: "videos/portfolio map.mp4"
+            },
+            {
+                title: "Fancy Trendy CAptions ",
+                category: "Viral Subtitles ",
+                // path: "./music_video.mp4" <-- Use this when testing locally
+                path: "videos/saba sample final.mp4"
+            }
+        ];
+
+        // 2. Render the videos into the grid
+        const videoGrid = document.getElementById('video-grid');
+
+        function renderVideos() {
+            videoGrid.innerHTML = ''; // Clear container
+
+            portfolioVideos.forEach((video, index) => {
+                
+                // Create Card Element
+                const card = document.createElement('div');
+                card.className = 'bg-dark-700 rounded-2xl overflow-hidden border border-white/5 video-card-hover transition-all duration-300 flex flex-col';
+                
+                // HTML structure for the card
+                let videoContentHtml = '';
+
+                // If a real path is provided (not "placeholder")
+                if (video.path !== "placeholder") {
+                    videoContentHtml = `
+                        <div class="aspect-video w-full bg-black relative group video-container cursor-pointer">
+                            <video class="w-full h-full object-cover" preload="metadata" playsinline>
+                                <source src="${video.path}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            
+                            <!-- Custom Play/Pause Overlay -->
+                            <div class="video-overlay absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors duration-300 flex items-center justify-center z-10">
+                                <button class="play-pause-btn w-16 h-16 flex items-center justify-center bg-brand/90 text-white rounded-full backdrop-blur-sm hover:bg-brand hover:scale-110 transition-all focus:outline-none shadow-[0_0_20px_rgba(225,29,72,0.4)]">
+                                    <i data-lucide="play" class="w-6 h-6 ml-1 icon-play"></i>
+                                    <i data-lucide="pause" class="w-6 h-6 hidden icon-pause"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Fallback visual if it's a dummy link (so the portfolio still looks good while you set it up)
+                    videoContentHtml = `
+                        <div class="aspect-video w-full bg-dark-900 relative flex flex-col items-center justify-center border-b border-white/5 group">
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                                <button class="w-16 h-16 flex items-center justify-center bg-brand/90 text-white rounded-full backdrop-blur-sm shadow-[0_0_20px_rgba(225,29,72,0.4)] cursor-not-allowed">
+                                    <i data-lucide="play" class="w-6 h-6 ml-1"></i>
+                                </button>
+                            </div>
+                            <i data-lucide="video" class="w-12 h-12 text-brand mb-2 opacity-50 relative z-0"></i>
+                            <span class="text-xs text-gray-500 uppercase tracking-widest relative z-0">Video ${index + 1} Placeholder</span>
+                            <span class="text-[10px] text-brand/70 mt-1 px-4 text-center relative z-0">Update the path in code to your local .mp4 file</span>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    ${videoContentHtml}
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <p class="text-brand text-xs font-bold uppercase tracking-wider mb-2">${video.category}</p>
+                            <h3 class="text-white text-xl font-display font-semibold mb-2">${video.title}</h3>
+                        </div>
+                    </div>
+                `;
+
+                videoGrid.appendChild(card);
+            });
+            
+            // Re-initialize icons for newly added HTML
+            lucide.createIcons();
+            
+            // Attach Video Event Listeners
+            attachVideoControls();
+        }
+
+        // 3. Custom Video Controls Logic
+        function attachVideoControls() {
+            const containers = document.querySelectorAll('.video-container');
+            
+            containers.forEach(container => {
+                const video = container.querySelector('video');
+                const btn = container.querySelector('.play-pause-btn');
+                const iconPlay = btn.querySelector('.icon-play');
+                const iconPause = btn.querySelector('.icon-pause');
+                const overlay = container.querySelector('.video-overlay');
+
+                if (video && btn) {
+                    const togglePlay = () => {
+                        if (video.paused) {
+                            // Pause all other videos first
+                            document.querySelectorAll('video').forEach(v => {
+                                if (v !== video) {
+                                    v.pause();
+                                    // Reset other icons/overlays
+                                    const otherContainer = v.closest('.video-container');
+                                    if(otherContainer) {
+                                        otherContainer.querySelector('.icon-play').classList.remove('hidden');
+                                        otherContainer.querySelector('.icon-pause').classList.add('hidden');
+                                        otherContainer.querySelector('.video-overlay').classList.add('bg-black/40');
+                                        otherContainer.querySelector('.video-overlay').classList.remove('bg-transparent', 'opacity-0');
+                                    }
+                                }
+                            });
+
+                            // Play this video
+                            video.play();
+                            iconPlay.classList.add('hidden');
+                            iconPause.classList.remove('hidden');
+                            overlay.classList.remove('bg-black/40', 'group-hover:bg-black/50');
+                            overlay.classList.add('bg-transparent', 'opacity-0', 'hover:opacity-100'); // Hide overlay while playing unless hovered
+                        } else {
+                            // Pause this video
+                            video.pause();
+                            iconPlay.classList.remove('hidden');
+                            iconPause.classList.add('hidden');
+                            overlay.classList.add('bg-black/40', 'group-hover:bg-black/50');
+                            overlay.classList.remove('bg-transparent', 'opacity-0', 'hover:opacity-100'); // Show overlay when paused
+                        }
+                    };
+                    
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        togglePlay();
+                    });
+
+                    video.addEventListener('click', togglePlay);
+
+                    // Handle video end
+                    video.addEventListener('ended', () => {
+                        iconPlay.classList.remove('hidden');
+                        iconPause.classList.add('hidden');
+                        overlay.classList.add('bg-black/40', 'group-hover:bg-black/50');
+                        overlay.classList.remove('bg-transparent', 'opacity-0', 'hover:opacity-100');
+                    });
+                }
+            });
+        }
+
+        // Run the render function when the page loads
+        document.addEventListener('DOMContentLoaded', renderVideos);
+
+    </script>
+</body>
+</html>
